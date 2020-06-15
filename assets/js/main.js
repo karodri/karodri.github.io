@@ -7,7 +7,9 @@
 (function($) {
 
 	var	$window = $(window),
-		$body = $('body');
+		$body = $('body'),
+		$contact = $('#contact-form'),
+		$notification = $('#notification');
 
 	// Breakpoints.
 		breakpoints({
@@ -60,6 +62,7 @@
 					})
 					.on('blur focus', function() {
 						$this.val($.trim($this.val()));
+						$notification.text('');
 					})
 					.on('input blur focus --init', function() {
 
@@ -88,6 +91,37 @@
 							.css('overflow-y', 'auto');
 
 			});
+
+	// Contact.
+		$contact.submit(function(event) { 
+
+			// Prevent default.
+				event.preventDefault();
+
+			// Send a POST request with Axios
+				axios({
+				    method: 'post',
+				    url: 'https://app.99inbound.com/api/e/MISN0cfi',
+				    headers: {
+				    	'Content-Type': 'application/json',
+				    	'Accept': 'application/json'
+				    },
+				    data: {
+				  		name: $("#name").val(),
+				  		email: $("#email").val(),
+				  		message: $("#message").val()
+				    }
+				}).then((response) => { console.log(response); })
+
+			// Clear input field.
+				$(".field").each(function() {
+					$(this).val('');
+				});
+
+			// Display message.
+				$notification.text('Thank you for your submission.');
+				//else { $notification.text('There was an error submitting your message.'); }
+		});
 
 	// Menu.
 		var $menu = $('#menu');
