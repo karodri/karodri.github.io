@@ -35,6 +35,13 @@
 	// Forms.
 		var $form = $('form');
 
+		// Clear notification text on field focus
+			$(".form-field").each(function() {
+				$(this).on('blur focus', function() {
+					$notification.text('');
+				});
+			});
+
 		// Auto-resizing textareas.
 			$form.find('textarea').each(function() {
 
@@ -62,7 +69,6 @@
 					})
 					.on('blur focus', function() {
 						$this.val($.trim($this.val()));
-						$notification.text('');
 					})
 					.on('input blur focus --init', function() {
 
@@ -114,7 +120,7 @@
 				}).then((response) => { console.log(response); })
 
 			// Clear input field.
-				$(".field").each(function() {
+				$(".form-field").each(function() {
 					$(this).val('');
 				});
 
